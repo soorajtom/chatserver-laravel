@@ -19,8 +19,8 @@ Route::get('/', function () {
 //    return view('dash', ["leftpanecontent" => 'Soo', "mainwincontent" => "Raj"]);
 //});
 
-Route::get('bla', "DashboardGen@index");
+Route::get('/home', "DashboardGen@index");
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');

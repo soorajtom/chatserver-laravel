@@ -9,9 +9,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'MyChatServer') }}</title>
-
+    @yield('custom_defn')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
 </head>
 <body>
     <div id="app">
@@ -71,9 +72,11 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="background-color: white; border-top: solid 1px lightgray;display: flex;
+  flex-flow: column;
+  height: 100%;">
             <div class="row">
-                <div id='leftpaneid' class="col-sm-4">
+                <div id='leftpaneid' class="col-sm-4" style="border-right: solid 1px lightgray;">
                     @yield('leftpane')
                 </div>
                 <div id='midpaneid' class="col-sm-8">
@@ -88,5 +91,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/dashboard_scripts.js') }}"></script>
 </body>
 </html>
