@@ -88,10 +88,8 @@
 
 
     <div class="panel panel-default msglist" style="padding:25px">
-      <div class="panel-heading" id="chatname">
-        <div id="typing">
-        </div>
-
+      <div class="panel-heading" >
+        <span id ="chatname"></span> <span id="livetype"></span>
       </div>
       <div class="panel-body" id="msgs" style="overflow-y:auto !important;min-height:200px;max-height:200px">
 

@@ -67,6 +67,8 @@ class WebSocketController extends Controller implements MessageComponentInterfac
             }
             $conn->send(json_encode(['online_users' => $onlineUsers, 'mode' => 1]));
         } else{
+
+
             $fromUserId = $this->connections[$conn->resourceId]['user_id'];
             $msg = json_decode($msg, true);
             $onlineu = 0;
@@ -79,19 +81,34 @@ class WebSocketController extends Controller implements MessageComponentInterfac
                 $resId=$resourceId;
               }
             }
-            echo $fromUserId;
-            echo $msg['to'];
-            echo $msg['content'];
+            echo $msg['mod'];
+            if ($msg['mod'] == '0')
+            {
+
+
             DB::insert('insert into `messages` (`frm`,`to`,`message`) values (?,?,?)',[$fromUserId,$msg['to'],$msg['content']]);
 
 
-            if ($onlineu){
+            if ($onlineu)
+            {
             $this->connections[$resId]['conn']->send(json_encode([
                 'msga' => $msg['content'],
                 'from_user_id' => $fromUserId,
                 'from_resource_id' => $conn->resourceId,
                 'mode' => 0
             ]));}
+          }
+          else
+            {
+              if ($onlineu){
+              $this->connections[$resId]['conn']->send(json_encode([
+                  'msga' => $msg['content'],
+                  'from_user_id' => $fromUserId,
+                  'from_resource_id' => $conn->resourceId,
+                  'mode' => 4
+              ]));}
+            }
+
         }
     }
 }

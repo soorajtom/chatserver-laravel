@@ -43,7 +43,20 @@ $(document).ready(function (){
       $('#subbtn').click();
       $('#message').val("");
     }
+  });
+
+  $('#message').keyup(function(e){
+    {
+      if(e.keyCode != 13)
+      {
+        var chatForm = $(".chatForm");
+        var msginp = chatForm.find("#message").val();
+
+      sendmsg(curchat,msginp,1);
+    }
+    }
     });
+
 
   curchat=$("#curusr").val();
   setchat(curchat);
@@ -82,12 +95,20 @@ conn.onmessage=function(e)
   var dat = JSON.parse(e.data);
   if (dat.mode==0)
   {
+    clearBox('livetype');
     setchat( dat.from_user_id);
 
     msgs.append('<div style="text-align:left; padding:3px;margin:3px;">'+dat.msga+'</div>');
   var elem = document.getElementById("msgs");
   elem.scrollTop = elem.scrollHeight;
 
+}
+else if(dat.mode==4)
+{
+  var heading = $("#livetype");
+  clearBox('livetype');
+
+  heading.append('<strong> typed </strong>'+dat.msga);
 }
 
 };
@@ -97,7 +118,7 @@ conn.onclose=function()
 }
 function sendmsg(rec,msg,mode)
 {
-  var sdata = JSON.stringify({'to':rec,'content':msg, 'mode':mode});
+  var sdata = JSON.stringify({'to':rec,'content':msg, 'mod':mode});
   console.log(sdata);
   conn.send(sdata);
   console.log("sent")
