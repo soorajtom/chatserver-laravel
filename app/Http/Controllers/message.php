@@ -3,17 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Ratchet\MessageComponentInterface;
-use Ratchet\ConnectionInterface;
 
-class DashboardGen extends Controller
+class message extends Controller
 {
-    
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +13,7 @@ class DashboardGen extends Controller
      */
     public function index()
     {
-        $clientip = request()->ip();
-        
-        return view('dash');
+        //
     }
 
     /**

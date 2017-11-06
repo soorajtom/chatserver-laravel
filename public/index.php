@@ -22,6 +22,40 @@ define('LARAVEL_START', microtime(true));
 */
 
 require __DIR__.'/../vendor/autoload.php';
+//use Ratchet\Server\IoServer;
+//use Ratchet\Http\HttpServer;
+//use Ratchet\WebSocket\WsServer;
+//use App\Http\Controllers\Chat;
+//
+//    $server = IoServer::factory(
+//        new HttpServer(
+//            new WsServer(
+//                new Chat()
+//            )
+//        ),
+//        8080
+//    );
+//
+//    $server->run();
+//class Chat implements MessageComponentInterface {
+//    public function onOpen(ConnectionInterface $conn) {
+//    }
+//
+//    public function onMessage(ConnectionInterface $from, $msg) {
+//    }
+//
+//    public function onClose(ConnectionInterface $conn) {
+//    }
+//
+//    public function onError(ConnectionInterface $conn, \Exception $e) {
+//    }
+//}
+//$server = IoServer::factory(
+//        new Chat(),
+//        8888
+//    );
+//
+//    $server->run();
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +82,9 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 | and wonderful application we have prepared for them.
 |
 */
+
+
+
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
