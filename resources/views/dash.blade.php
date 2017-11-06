@@ -89,22 +89,21 @@
 
     <div class="panel panel-default msglist" style="padding:25px">
       <div class="panel-heading" id="chatname">
+        <div id="typing">
+        </div>
 
       </div>
       <div class="panel-body" id="msgs" style="overflow-y:auto !important;min-height:200px;max-height:200px">
-        <?php
-          $mess = DB::select('select messagefrom messages where frm='.Auth::usr()->name.' to='.);
-        ?>
+
 
       </div>
-      <form class='chatForm' action='/home' method='post'>
+      <form class='chatForm' action='/home' method='post' autocomplete="off">
         <div class='form-group'>
           <label for='message'>Message<span id="recvuser"></span></label>
-          <textarea type='button' id="message" name="message" class="form-control" value="">
-          </textarea>
+          <input type='text' id="message" name="message" class="form-control" value="">
         </div>
         <div class="">
-              <button type="submit" name="button" class="btn btn-primary pull-right">Send</button>
+              <button type="submit" name="button" class="btn btn-primary pull-right" id="subbtn">Send</button>
             </div>
           </form>
         </div>

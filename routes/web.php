@@ -22,5 +22,6 @@ Route::get('/', function () {
 Route::get('/home', "DashboardGen@index");
 
 Auth::routes();
+Route::post('/getmess', "Fetchmess@index");
 
 //Route::get('/home', 'HomeController@index')->name('home');
