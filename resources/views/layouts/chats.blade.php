@@ -12,7 +12,7 @@
     @yield('custom_defn')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    
+
 </head>
 <body>
     <div id="app">
@@ -72,7 +72,7 @@
             </div>
         </nav>
 
-        <div class="container-fluid" style="background-color: white; border-top: solid 1px lightgray;display: flex;
+        <div class="container" style="padding-top:15px;display: flex;
   flex-flow: column;
   height: 100%;">
             <div class="row">
@@ -84,13 +84,16 @@
                 </div>
             </div>
         </div>
-        
-        
-        
+
+
+
     </div>
 
     <!-- Scripts -->
+
     <script src="{{ asset('js/app.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/dashboard_scripts.js') }}"></script>
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset ('js/main.js')}}"></script>
+
 </body>
 </html>

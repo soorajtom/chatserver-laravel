@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use DB;
 
 class WebSocketController extends Controller implements MessageComponentInterface{
     private $connections = [];
@@ -13,6 +14,7 @@ class WebSocketController extends Controller implements MessageComponentInterfac
      * @throws \Exception
      */
     function onOpen(ConnectionInterface $conn){
+        // echo var_dump($conn);
         $this->connections[$conn->resourceId] = compact('conn') + ['user_id' => null];
     }
 
@@ -28,7 +30,8 @@ class WebSocketController extends Controller implements MessageComponentInterfac
             $connection['conn']->send(json_encode([
                 'offline_user' => $disconnectedId,
                 'from_user_id' => 'server control',
-                'from_resource_id' => null
+                'from_resource_id' => null,
+                'mode' => 2
             ]));
     }
 
@@ -57,19 +60,38 @@ class WebSocketController extends Controller implements MessageComponentInterfac
             $this->connections[$conn->resourceId]['user_id'] = $msg;
             $onlineUsers = [];
             foreach($this->connections as $resourceId => &$connection){
-                $connection['conn']->send(json_encode([$conn->resourceId => $msg]));
+//                $msg
+                $connection['conn']->send(json_encode([$conn->resourceId => $msg, 'mode' => 3]));
                 if($conn->resourceId != $resourceId)
                     $onlineUsers[$resourceId] = $connection['user_id'];
             }
-            $conn->send(json_encode(['online_users' => $onlineUsers]));
+            $conn->send(json_encode(['online_users' => $onlineUsers, 'mode' => 1]));
         } else{
             $fromUserId = $this->connections[$conn->resourceId]['user_id'];
             $msg = json_decode($msg, true);
-            $this->connections[$msg['to']]['conn']->send(json_encode([
+            $onlineu = 0;
+            $resId = '';
+            foreach($this->connections as $resourceId => &$connection)
+            {
+              if($connection['user_id']==$msg['to'])
+              {
+                $onlineu=1;
+                $resId=$resourceId;
+              }
+            }
+            echo $fromUserId;
+            echo $msg['to'];
+            echo $msg['content'];
+            DB::insert('insert into `messages` (`frm`,`to`,`message`) values (?,?,?)',[$fromUserId,$msg['to'],$msg['content']]);
+
+
+            if ($onlineu){
+            $this->connections[$resId]['conn']->send(json_encode([
                 'msga' => $msg['content'],
                 'from_user_id' => $fromUserId,
-                'from_resource_id' => $conn->resourceId
-            ]));
+                'from_resource_id' => $conn->resourceId,
+                'mode' => 0
+            ]));}
         }
     }
 }

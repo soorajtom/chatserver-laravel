@@ -64,20 +64,52 @@
 
 @endsection
 
+
 @section('leftpane')
-    <div class="lds-css ng-scope">
-  <div style="width:100%;height:100%" class="lds-ripple">
-    <div></div>
-    <div></div>
+    <div class="panel panel-default" width="100%">
+      <div class="panel-heading">Chats</div>
+      <div class="panel-body">
+      <?php
+            $users=DB::select('select name,id from users where not id='.Auth::user()->id);
+            foreach ($users as $user)
+            {
+                $out = "<a onclick=\"setchat('".$user->name."')\"><div class='alert alert-success'>". $user->name."</div></a>";
+                echo $out;
+
+           }
+           ?>
+         </div>
+         <input type='hidden' id='curusr' value='<?php echo $users[0]->name; ?>'>
+         <input type='hidden' id='myname' value='<?php echo Auth::user()->name; ?>'>
   </div>
-</div>
 @endsection
 
 @section('mainwin')
-    <div class="lds-css ng-scope">
-  <div style="width:100%;height:100%" class="lds-ripple">
-    <div></div>
-    <div></div>
+
+
+    <div class="panel panel-default msglist" style="padding:25px">
+      <div class="panel-heading" id="chatname">
+
+      </div>
+      <div class="panel-body" id="msgs" style="overflow-y:auto !important;min-height:200px;max-height:200px">
+        <?php
+          $mess = DB::select('select messagefrom messages where frm='.Auth::usr()->name.' to='.);
+        ?>
+
+      </div>
+      <form class='chatForm' action='/home' method='post'>
+        <div class='form-group'>
+          <label for='message'>Message<span id="recvuser"></span></label>
+          <textarea type='button' id="message" name="message" class="form-control" value="">
+          </textarea>
+        </div>
+        <div class="">
+              <button type="submit" name="button" class="btn btn-primary pull-right">Send</button>
+            </div>
+          </form>
+        </div>
+
   </div>
-</div>
+
+
 @endsection
