@@ -15,7 +15,7 @@ success: function(data) {
    var msgs = $("#msgs");
    clearBox("msgs");
    msgs.append(data);
-   var elem = document.getElementById("msgs");
+   var elem = document.getElementById("msgsbox");
    elem.scrollTop = elem.scrollHeight;
 }
 });
@@ -41,7 +41,7 @@ $(document).ready(function (){
       if(e.keyCode==13)
       {
       $('#subbtn').click();
-      $('#message').val("");
+      // $('#message').val("");
     }
   });
 
@@ -51,9 +51,8 @@ $(document).ready(function (){
       {
         var chatForm = $(".chatForm");
         var msginp = chatForm.find("#message").val();
-
       sendmsg(curchat,msginp,1);
-    }
+      }
     }
     });
 
@@ -68,10 +67,14 @@ var chatForm = $(".chatForm"),
 chatForm.on("submit",function(e){
   e.preventDefault();
   var message=msginp.val();
+  if(message =="")
+  return false;
   sendmsg(curchat,message, 0);
 var msgs = $("#msgs");
-msgs.append('<div style="text-align:right; padding:3px;margin:3px;">'+message+'</div>');
-var elem = document.getElementById("msgs");
+msgs.append('<tr><td><div class=\'well well-sm\' style="background:rgb(22,105,173);color:rgb(255,255,255);min-width:40%;float:right;display:inline-block;">'+message+'</div></td></tr>');
+var elem = document.getElementById("msgsbox");
+
+$('#message').val("");
 elem.scrollTop = elem.scrollHeight;
   return false;
 });
@@ -96,19 +99,25 @@ conn.onmessage=function(e)
   if (dat.mode==0)
   {
     clearBox('livetype');
-    setchat( dat.from_user_id);
+    //setchat( dat.from_user_id);
+    if(curchat == dat.from_user_id)
+    {
 
-    msgs.append('<div style="text-align:left; padding:3px;margin:3px;">'+dat.msga+'</div>');
-  var elem = document.getElementById("msgs");
-  elem.scrollTop = elem.scrollHeight;
+      msgs.append('<tr ><td><div class=\'well well-sm\' style="min-width:40%;float:left;display:inline-block;">'+dat.msga+'</div></td></tr>');
+      var elem = document.getElementById("msgsbox");
+      elem.scrollTop = elem.scrollHeight;
+    }
 
 }
 else if(dat.mode==4)
 {
-  var heading = $("#livetype");
-  clearBox('livetype');
-
-  heading.append('<strong> typed </strong>'+dat.msga);
+  if(curchat==dat.from_user_id)
+  {
+    var heading = $("#livetype");
+    clearBox('livetype');
+    if(dat.msga!="")
+    heading.append('<strong> typed </strong>'+dat.msga);
+  }
 }
 
 };
@@ -122,5 +131,9 @@ function sendmsg(rec,msg,mode)
   console.log(sdata);
   conn.send(sdata);
   console.log("sent")
+  if(msg=="")
+  {
+      clearBox('livetype');
+  }
 }
 });

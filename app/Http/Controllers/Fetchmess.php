@@ -19,14 +19,15 @@ class Fetchmess extends Controller
 
       foreach ($mess as $msg)
       {
-        if ((($msg ->frm == $request->to) && ($msg ->to == $request->frm)))
+
+        if((($msg ->frm == $request->frm) && ($msg ->to == $request->to)))
         // else
         {
-          $cont = $cont . '<div style="text-align:left; padding:3px;margin:3px;">'.($msg->message).'</div>';
+          $cont = $cont . '<tr ><td><div class=\'well well-sm\' style="background:rgb(22,105,173);color:rgb(255,255,255);min-width:40%;float:right;display:inline-block ;">'.($msg->message).'</div></td></tr>';
         }
-        if((($msg ->frm == $request->frm) && ($msg ->to == $request->to)))
+        if ((($msg ->frm == $request->to) && ($msg ->to == $request->frm)))
         {
-        $cont = $cont . '<div style="text-align:right; padding:3px;margin:3px;">'.($msg->message).'</div>';
+        $cont = $cont . '<tr ><td><div class=\'well well-sm\' style="min-width:40%;float:left;display:inline-block ;">'.($msg->message).'</div></td></tr>';
       }
 
       }
